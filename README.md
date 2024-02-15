@@ -1,4 +1,5 @@
-# SQL-Superstore Database
+# Welcome to my SQL portfolio! This code repository contains examples of SQL I've written. Feel free to take a look and reach out if you have any questions.
+## SQL-Superstore Database
 CREATE TABLE superstore (
     item_id INTEGER PRIMARY KEY,
     item_name TEXT,
@@ -26,22 +27,22 @@ VALUES
     (14, 'Cutlery Set', 'Kitchen Supplies', 34.50, 40, 4.4),
     (15, 'Cozy Throw Blanket', 'Furnishings', 24.99, 100, 4.2);
 
-For this project I used SQL to query the superstore datebase to get information about items sold at their store and prices. 
+## For this project I used SQL to query the superstore datebase to get information about items sold at their store and prices. 
 
-Use a SELECT statement to order by price
+## Use a SELECT statement to order by price
  SELECT *
  FROM superstore
  ORDER BY price desc;
 
-Show a Statistic about item prices
+## Show a Statistic about item prices
  SELECT SUM (price)
  FROM superstore;
 
- Show a statistic about item in category Kitchen Supplies
+## Show a statistic about item in category Kitchen Supplies
  SELECT SUM (price), 'Kitchen Supplies'
  FROM superstore; 
 
- Show a statistic from about item in category Air Purifiers
+# Show a statistic from about item in category Air Purifiers
  SLECET COUNT (stock_quantity), 'Air Purifier'
  FROM superstore;
  
