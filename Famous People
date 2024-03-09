@@ -1,0 +1,58 @@
+--Create table about the people and what they do here 
+CREATE TABLE famous_people (
+id INTEGER PRIMARY KEY AUTOINCREMENT, 
+full_name TEXT,
+name_id TEXT,
+industry TEXT 
+);
+
+INSERT INTO famous_people (id,full_name, industry)
+VALUES
+(1,'Adele', 'Singer'), 
+(2,'Walt Disney', 'Film producer'),
+(3,'Miley Cyrus', 'Singer'),
+(4,'J.K. Rowling', 'Author'),
+(5, 'Denzel Washington', 'Movie Star'),
+(6, 'Elizabeth Taylor', 'Movie Star');
+
+CREATE TABLE famous_work (
+id INTEGER PRIMARY KEY AUTOINCREMENT, 
+people_id TEXT,
+songs TEXT,
+movies TEXT,
+books TEXT);
+
+INSERT INTO famous_work (id, songs, movies, books)
+VALUES
+(1, 'Hello', null, null),
+(2, 'Under the sea' ,'Snow White and the Seven Dwarves', 'Bambi'),
+(3, 'Wrecking Ball', 'The Last Song', 'Miles to go'),
+(4, null, 'Harry Potter and the Sorcerers Stone', 'Harry Potter'),
+(5, null, 'Equalizer', null),
+(6, null, 'Little Women', null);
+
+--What is the occupation of each famous person?
+SELECT full_name, industry
+from famous_people;
+
+--What is each famous person most famous from?
+SELECT famous_people.full_name, famous_work.movies, famous_work.songs, famous_work.books
+from famous_people
+join famous_work
+on famous_people.id=famous_work.id;
+
+--who has written a book?
+Select famous_people.full_name, famous_work.books
+from famous_people
+join famous_work
+on famous_people.id=famous_work.id
+Where famous_work.books>1;
+
+--What famous person has work in all three industrys?
+Select famous_people.full_name, famous_work.books,famous_work.movies, famous_work.songs
+from famous_people
+join famous_work
+on famous_people.id=famous_work.id
+Where famous_work.books>1
+AND famous_work.movies>1
+AND famous_work.songs>1;
