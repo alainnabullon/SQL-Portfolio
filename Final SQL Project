@@ -1,0 +1,135 @@
+--Show Customers (their full names, customer ID, and country) who are not in the US. 
+SELECT FirstName, 
+LastName,
+Customerid,
+country
+FROM chinook.customers
+WHERE country <> 'USA'
+ORDER BY Customerid asc;
+
+--Show only the Customers from Brazil.
+SELECT*
+FROM chinook.customers
+WHERE country = 'Brazil'
+ORDER BY Customerid asc;
+
+--Find the Invoices of customers who are from Brazil. 
+--The resulting table should show the customer's full name, Invoice ID, Date of the invoice, and billing country.
+SELECT cust.FirstName
+,cust.LastName
+,bill.Invoiceid
+,bill.InvoiceDate
+,bill.BillingCountry
+FROM chinook.customers as cust
+JOIN chinook.invoices as bill
+ON cust.customerid=bill.customerid
+WHERE billingcountry='Brazil';
+
+--Show the Employees who are Sales Agents.
+SELECT *
+FROM chinook.employees
+WHERE title = 'Sales Support Agent';
+
+
+--Find a unique/distinct list of billing countries from the Invoice table.
+SELECT distinct Billingcountry
+FROM chinook.invoices;
+
+--Provide a query that shows the invoices associated with each sales agent. 
+--The resulting table should include the Sales Agent's full name.
+SELECT staff.LastName
+,staff.FirstName
+,bill.invoiceid
+FROM chinook.customers as cust
+join chinook.invoices as bill
+on cust.customerid=bill.customerid
+join chinook.employees as staff
+on staff.employeeid =cust.supportrepid;
+
+--Show the Invoice Total, Customer name, Country, and Sales Agent name for all invoices and customers.
+SELECT bill.Total as total_per_cust
+, cust.LastName
+, cust.FirstName
+, bill.billingCountry
+, staff.LastName as Agent
+, staff.FirstName as Agent 
+FROM chinook.invoices as bill
+Join chinook.customers as cust
+ON bill.customerid= cust.customerid
+join chinook.employees as staff
+on cust.supportrepid =staff.employeeid;
+
+--How many Invoices were there in 2009?
+SELECT distinct count(invoiceid) as invoices_in_2009
+FROM chinook.invoices as invoices
+WHERE invoicedate between '2009-01-01' 
+AND '2009-12-31';
+
+--What are the total sales for 2009?
+SELECT ROUND (sum(total),2) as total_sales_2009
+FROM chinook.invoices as invoices
+WHERE invoicedate between '2009-01-01' 
+AND '2009-12-31';
+
+
+--Write a query that includes the purchased track name with each invoice line ID.
+SELECT items.invoicelineid
+,tracks.Name
+FROM chinook.invoice_items as items
+join chinook.tracks as tracks
+on tracks.trackid= items.trackid;
+
+--Write a query that includes the purchased track name AND artist name with each invoice line ID.
+SELECT distinct items.invoicelineid
+,tracks.Name as track_name
+,artists.name as artists_name
+FROM chinook.invoice_items as items
+join chinook.tracks as tracks
+on tracks.trackid= items.trackid
+join chinook.albums as albums
+on albums.AlbumId= tracks.AlbumId
+join chinook.artists as artists
+on artists.artistid= albums.artistid
+;
+
+--Provide a query that shows all the Tracks, and include the Album name, Media type, and Genre.
+SELECT distinct tracks.name as track_name
+, albums.title as albumbs
+, media_types.name as media
+, genres.name as genre 
+FROM chinook.tracks as tracks
+join chinook.albums as albums
+on albums.AlbumId= tracks.AlbumId
+join chinook.artists as artists
+on artists.artistid= albums.artistid
+join chinook.media_types as media_types
+on tracks.MediaTypeId= media_types.mediatypeid
+join chinook.genres as genres
+on genres.genreid=tracks.GenreId;
+
+
+--Show the total sales made by each sales agent.
+SELECT ROUND(sum(total),2) as total_sales
+,staff.LastName
+,staff.FirstName
+FROM chinook.invoices as bill
+join chinook.customers as cust
+on cust.CustomerId=bill.customerid
+join chinook.employees as staff
+on staff.employeeid=cust.supportrepid
+group by staff.Lastname;
+
+--Which sales agent made the most dollars in sales in 2009?
+SELECT ROUND(SUM(total),2) as total_sales
+,staff.LastName
+,staff.FirstName
+FROM chinook.invoices as bill
+join chinook.customers as cust
+on cust.CustomerId=bill.customerid
+join chinook.employees as staff
+on staff.employeeid=cust.supportrepid
+WHERE invoicedate between '2009-01-01' 
+AND '2009-12-31'
+group by staff.Lastname
+LIMIT 1;
+
