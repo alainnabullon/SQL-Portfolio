@@ -133,3 +133,11 @@ AND '2009-12-31'
 group by staff.Lastname
 LIMIT 1;
 
+--What is the most purchased track and how much revune did it make?
+SELECT tracks.name
+,max(distinct invoices.total) as revune
+FROM chinook.invoice_items as items
+join chinook.invoices as invoices
+on items.invoiceid=invoices.invoiceid
+join chinook.tracks as tracks
+on tracks.trackid=items.trackid;
